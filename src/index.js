@@ -8,10 +8,13 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-const usersFilePath = path.join(__dirname, 'data', 'users.txt');
+const usersFilePath = path.join(__dirname, 'users.txt');
 
 // Função para ler os usuários do arquivo
 const readUsersFromFile = () => {
+    if (!fs.existsSync(usersFilePath)) {
+        fs.writeFileSync(usersFilePath, ''); 
+    }
     const data = fs.readFileSync(usersFilePath, 'utf-8');
     return data.split('\n').filter(line => line).map(line => JSON.parse(line));
 };
